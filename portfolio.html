@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Malo SULLY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        header {
+            background: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+        }
+        nav {
+            background: rgba(68, 68, 68, 0.8);
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+        }
+        nav a:hover {
+            background: rgba(85, 85, 85, 0.8);
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        footer {
+            background: rgba(51, 51, 51, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function showPage(pageId) {
+            var pages = document.getElementsByClassName("page");
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].style.display = "none";
+            }
+            document.getElementById(pageId).style.display = "block";
+        }
+    </script>
+</head>
+<body onload="showPage('about')">
+    <header>
+        <h1>Portfolio Malo SULLY</h1>
+    </header>
+    <nav>
+        <a href="#" onclick="showPage('about')">À propos de moi</a>
+        <a href="#" onclick="showPage('project')">Projet professionnel</a>
+        <a href="#" onclick="showPage('skills')">Compétences</a>
+        <a href="#" onclick="showPage('education')">Formation</a>
+        <a href="#" onclick="showPage('experience')">Expérience professionnelle</a>
+        <a href="#" onclick="showPage('certifications')">Certifications</a>
+		<a href="#" onclick="showPage('veille technologique')">Veille technologique</a>
+    </nav>
+    
+    <div class="container">
+        <div id="about" class="page">
+            <h2>À propos de moi</h2>
+            <p>Je m'appelle Malo,
+			J'ai 18 ans, 
+			Je suis un étudiant passionné par le réseau et l'administration système.
+			Actuellement en première année de BTS SIO, je suis également une prépa intégré en collaboration avec l'ISEN.</p>
+			<iframe src="Malo.pdf" width="100%" height="600px"></iframe>
+
+        </div>
+        <div id="project" class="page">
+            <h2>Projet professionnel</h2>
+            <p>Mon objectif est d'obtenir mon BTS en administration réseaux afin de continuer mes études en école d'ingénieur.</p>
+        </div>
+        <div id="skills" class="page">
+            <h2>Compétences</h2>
+            <ul>
+                <li>Création de VM dans un hyperviseur de style Proxmox</li>
+                <li>Création de conteneurs/volumes Docker</li>
+                <li>Gestion d'AD/DS dans Windows Serveur</li>
+				<li>Déploiement d'images en multicast avec Fog</li>
+				<li>Création de règles de pare-feu avec IPfire</li>
+				<li>Mise en place de proxy avec Squid</li>
+            </ul>
+        </div>
+        <div id="education" class="page">
+            <h2>Formation</h2>
+            <p>J'ai eu mon BAC STMG spécialité marketing à la fin de mes 3 ans de lycée, mention assez bien.</p>
+        </div>
+        <div id="experience" class="page">
+            <h2>Expérience professionnelle</h2>
+            <p>Stage d'observation à Cash Express Avranches (2022)</p>
+        </div>
+        <div id="certifications" class="page">
+            <h2>Certifications</h2>
+            <ul>
+                <li>Certification MOOC de l'ANSSI</li>
+                <li><a href="https://gamma.app/docs/Certifications-numeriques--w8qnqswhlrj2eou">Certifications en cours</a></li>
+
+            </ul>
+        </div>
+		<div id="veille technologique" class="page">
+            <h2>Veille technologique</h2>
+            <p>...</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Portfolio Étudiant</p>
+    </footer>
+</body>
+</html>
