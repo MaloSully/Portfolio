@@ -118,9 +118,51 @@
         </div>
 		<div id="veille technologique" class="page">
             <h2>Veille technologique</h2>
-            <p>...</p>
-        </div>
-    </div>
+  <title>Flux RSS Developpez.com</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    a {
+      display: block;
+      margin: 8px 0;
+      text-decoration: none;
+      color: #007acc;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Actualités Developpez.com</h1>
+  <div id="rss-feed">Chargement...</div>
+
+  <script>
+    const feedContainer = document.getElementById("rss-feed");
+
+    	fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.developpez.com/index/rss")
+      		.then(response => response.json())
+      		.then(data => {
+        	feedContainer.innerHTML = "";
+        	data.items.forEach(item => {
+          	const link = document.createElement("a");
+          	link.href = item.link;
+          	link.textContent = item.title;
+          	link.target = "_blank";
+          	feedContainer.appendChild(link);
+        	});
+      		})
+      		.catch(error => {
+    		feedContainer.innerHTML = "Erreur lors du chargement du flux.";
+        	console.error("Erreur RSS:", error);
+      		});
+  		</script>
+	</div>
     
     <footer>
         <p>&copy; 2025 Portfolio Étudiant</p>
