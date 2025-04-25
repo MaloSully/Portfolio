@@ -126,33 +126,72 @@
         </div>
 		<div id="veille technologique" class="page">
  <h2>Veille technologique</h2>
-  <title>Flux RSS Developpez.com</title>
+  <title>Mon Portfolio - Flux RSS</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .main-content {
+      flex: 2;
+      padding-right: 40px;
+    }
+
+    .rss-feed {
+      flex: 1;
+      background-color: #ffffff;
       padding: 20px;
+      border-left: 2px solid #eee;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 
-    h1 {
-      font-size: 24px;
+    .rss-feed h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
     }
 
-    a {
+    .rss-feed a {
       display: block;
-      margin: 8px 0;
+      margin-bottom: 10px;
+      color: #0066cc;
       text-decoration: none;
-      color: #007acc;
+      font-size: 14px;
     }
 
-    a:hover {
+    .rss-feed a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>Actualités Developpez.com</h1>
 
-  <div id="rss-feed">Chargement...</div>
+  <div class="container">
+    <div class="main-content">
+      <h1>Bienvenue sur mon portfolio</h1>
+      <p>Voici un exemple d’intégration d’un flux RSS pour afficher les dernières actualités.</p>
+      <!-- Tu peux ajouter d'autres sections ici -->
+    </div>
+
+    <div class="rss-feed">
+      <h2>Actualités Developpez.com</h2>
+      <div id="rss-feed">Chargement en cours...</div>
+    </div>
+  </div>
 
   <script>
     const feedContainer = document.getElementById("rss-feed");
@@ -161,8 +200,7 @@
       .then(response => response.json())
       .then(data => {
         feedContainer.innerHTML = "";
-
-        data.items.forEach(item => {
+        data.items.slice(0, 6).forEach(item => { // limite à 6 actualités
           const link = document.createElement("a");
           link.href = item.link;
           link.textContent = item.title;
@@ -171,14 +209,14 @@
         });
       })
       .catch(error => {
-        feedContainer.innerHTML = "Erreur lors du chargement du flux.";
+        feedContainer.innerHTML = "Impossible de charger le flux.";
         console.error("Erreur RSS:", error);
       });
   </script>
+
 </body>
 </html>
 
-    
     <footer>
         <p>&copy; 2025 Portfolio Étudiant</p>
     </footer>
