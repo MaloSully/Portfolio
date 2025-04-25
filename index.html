@@ -188,7 +188,7 @@
     </div>
 
     <div class="rss-feed">
-      <h2>Actualités Developpez.com</h2>
+      <h2>Actualités Arcep.fr</h2>
       <div id="rss-feed">Chargement en cours...</div>
     </div>
   </div>
@@ -196,7 +196,7 @@
   <script>
     const feedContainer = document.getElementById("rss-feed");
 
-    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.developpez.com/index/rss")
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml")
       .then(response => response.json())
       .then(data => {
         feedContainer.innerHTML = "";
