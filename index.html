@@ -187,34 +187,6 @@
       <p>Le réseau mobile</p>
       <!-- Tu peux ajouter d'autres sections ici -->
     </div>
-
-    <div class="rss-feed">
-      <h2>Actualités Arcep.fr</h2>
-      <div id="rss-feed">Chargement en cours...</div>
-    </div>
-  </div>
-
-  <script>
-    const feedContainer = document.getElementById("rss-feed");
-
-    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml")
-      .then(response => response.json())
-      .then(data => {
-        feedContainer.innerHTML = "";
-        data.items.slice(0, 6).forEach(item => { // limite à 6 actualités
-          const link = document.createElement("a");
-          link.href = item.link;
-          link.textContent = item.title;
-          link.target = "_blank";
-          feedContainer.appendChild(link);
-        });
-      })
-      .catch(error => {
-        feedContainer.innerHTML = "Impossible de charger le flux.";
-        console.error("Erreur RSS:", error);
-      });
-  </script>
-
 	<div id="rss"></div>
 
 <script>
@@ -255,6 +227,7 @@
     </footer>
 </body>
 </html>
+
 
 
 
