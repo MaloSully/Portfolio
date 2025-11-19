@@ -215,32 +215,37 @@
       });
   </script>
 
-	<div class="rss-feed">
-      <h2>Actualités Télécoms</h2>
-      <div id="rss-feed">Chargement en cours...</div>
-    </div>
-  </div>
+	<div id="rss"></div>
 
-  <script>
-    const feedContainer = document.getElementById("rss-feed");
+<script>
+  async function loadRSS(url) {
+    const res = await fetch(url);
+    const text = await res.text();
 
-    fetch("https://rss.app/feeds/CKAVShza0XM6dX35.xml")
-      .then(response => response.json())
-      .then(data => {
-        feedContainer.innerHTML = "";
-        data.items.slice(0, 6).forEach(item => { // limite à 6 actualités
-          const link = document.createElement("a");
-          link.href = item.link;
-          link.textContent = item.title;
-          link.target = "_blank";
-          feedContainer.appendChild(link);
-        });
-      })
-      .catch(error => {
-        feedContainer.innerHTML = "Impossible de charger le flux.";
-        console.error("Erreur RSS:", error);
-      });
-  </script>
+    const xml = new DOMParser().parseFromString(text, "text/xml");
+    const items = xml.querySelectorAll("item");
+
+    let html = "<h3>" + (xml.querySelector("channel > title")?.textContent || "Flux RSS") + "</h3>";
+
+    items.forEach(item => {
+      html += `
+        <p>
+          <strong>${item.querySelector("title")?.textContent || ""}</strong><br>
+          <a href="${item.querySelector("link")?.textContent}" target="_blank">
+            ${item.querySelector("link")?.textContent}
+          </a><br>
+          <small>${item.querySelector("pubDate")?.textContent || ""}</small>
+        </p>
+      `;
+    });
+
+    document.getElementById("rss").innerHTML = html;
+  }
+
+  // Mets ici l'URL de ton flux RSS
+  loadRSS("https://rss.app/feeds/jz0Zi2zUz4O5J9WZ.xml");
+</script>
+
 
 </body>
 </html>
@@ -250,6 +255,7 @@
     </footer>
 </body>
 </html>
+
 
 
 
