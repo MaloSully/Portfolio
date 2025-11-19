@@ -215,6 +215,33 @@
       });
   </script>
 
+	<div class="rss-feed">
+      <h2>Actualités Télécoms</h2>
+      <div id="rss-feed">Chargement en cours...</div>
+    </div>
+  </div>
+
+  <script>
+    const feedContainer = document.getElementById("rss-feed");
+
+    fetch("https://rss.app/feeds/CKAVShza0XM6dX35.xml")
+      .then(response => response.json())
+      .then(data => {
+        feedContainer.innerHTML = "";
+        data.items.slice(0, 6).forEach(item => { // limite à 6 actualités
+          const link = document.createElement("a");
+          link.href = item.link;
+          link.textContent = item.title;
+          link.target = "_blank";
+          feedContainer.appendChild(link);
+        });
+      })
+      .catch(error => {
+        feedContainer.innerHTML = "Impossible de charger le flux.";
+        console.error("Erreur RSS:", error);
+      });
+  </script>
+
 </body>
 </html>
 
@@ -223,6 +250,7 @@
     </footer>
 </body>
 </html>
+
 
 
 
