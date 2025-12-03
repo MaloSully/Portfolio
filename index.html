@@ -201,7 +201,7 @@
     </header>
 
     <div class="controls" style="justify-content:center;gap:10px;">
-      <input id="feedUrl" type="text" placeholder="https://example.com/feed.xml" aria-label="URL du flux RSS">
+      <input id="feedUrl" type="text" placeholder="https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml" aria-label="URL du flux RSS">
       <button id="loadBtn">Charger</button>
     </div>
 
@@ -220,7 +220,7 @@
   const feedTitleEl = document.getElementById('feedTitle');
 
   // Exemple par défaut (change la si tu veux)
-  input.value = "https://rss.app/feeds/jz0ZiZzUz4O59JWZ.xml";
+  input.value = "https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml";
 
   btn.addEventListener('click', () => {
     loadAndRender(input.value.trim());
@@ -384,6 +384,7 @@
     </footer>
 </body>
 </html>
+
 
 
 
