@@ -194,99 +194,197 @@
       <div id="rss-feed">Chargement en cours...</div>
     </div>
   </div>
-<style>
-#rss {
-  max-width: 700px;
-  margin: 20px auto;
-  font-family: Arial, sans-serif;
-}
+<div class="container">
+    <header>
+      <h1 id="feedTitle">Lecteur RSS</h1>
+      <p>Colle l'URL du flux RSS puis clique sur <strong>Charger</strong></p>
+    </header>
 
-.rss-title {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 26px;
-  font-weight: bold;
-  color: #333;
-}
+    <div class="controls" style="justify-content:center;gap:10px;">
+      <input id="feedUrl" type="text" placeholder="https://example.com/feed.xml" aria-label="URL du flux RSS">
+      <button id="loadBtn">Charger</button>
+    </div>
 
-.rss-item {
-  background: #f9f9f9;
-  border-radius: 10px;
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 5px #0001;
-  transition: 0.2s ease;
-}
+    <div id="rss" aria-live="polite" style="margin-top:18px;"></div>
 
-.rss-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px #0002;
-}
+    <small class="note">
+      Si rien ne s'affiche, le serveur du flux bloque peut-être les requêtes cross-origin (CORS). Le script tente un proxy public en secours.
+    </small>
+  </div>
 
-.rss-item a {
-  font-size: 18px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #0066cc;
-}
+<script>
+(function(){
+  const elRss = document.getElementById('rss');
+  const btn = document.getElementById('loadBtn');
+  const input = document.getElementById('feedUrl');
+  const feedTitleEl = document.getElementById('feedTitle');
 
-.rss-item a:hover {
-  text-decoration: underline;
-}
+  // Exemple par défaut (change la si tu veux)
+  input.value = "https://rss.app/feeds/jz0ZiZzUz4O59JWZ.xml";
 
-.rss-date {
-  color: #777;
-  font-size: 12px;
-}	  
-</style>
-  <script>
-async function loadRSS(url) {
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
+  btn.addEventListener('click', () => {
+    loadAndRender(input.value.trim());
+  });
 
-    const xml = new DOMParser().parseFromString(text, "text/xml");
-    const items = xml.querySelectorAll("item");
+  // Charger au lancement
+  loadAndRender(input.value.trim());
 
-    const title = xml.querySelector("channel > title")?.textContent || "Flux RSS";
+  async function loadAndRender(url){
+    if(!url){
+      renderError('Veuillez fournir une URL de flux RSS.');
+      return;
+    }
+    elRss.innerHTML = '<p style="text-align:center;color:var(--muted)">Chargement…</p>';
+    try{
+      const raw = await fetchWithCorsFallback(url);
+      const xml = (new DOMParser()).parseFromString(raw, "text/xml");
 
-    let html = `<div class="rss-title">${title}</div>`;
+      // check erreur parsing
+      const parsererror = xml.querySelector("parsererror");
+      if(parsererror){
+        throw new Error('Impossible de parser le XML du flux.');
+      }
 
-    items.forEach(item => {
-      const itemTitle = item.querySelector("title")?.textContent || "Sans titre";
-      const link = item.querySelector("link")?.textContent || "#";
-      const pubDate = item.querySelector("pubDate")?.textContent || "";
+      const channelTitle = xml.querySelector("channel > title")?.textContent?.trim() || xml.querySelector("title")?.textContent?.trim() || 'Flux RSS';
+      feedTitleEl.textContent = channelTitle;
 
-      const formattedDate = pubDate ? new Date(pubDate).toLocaleString() : "";
+      const items = Array.from(xml.querySelectorAll("item")).slice(0, 20); // limite à 20 éléments
+      if(items.length === 0){
+        elRss.innerHTML = '<p class="error">Aucun item trouvé dans ce flux.</p>';
+        return;
+      }
 
-      html += `
-        <div class="rss-item">
-          <a href="${link}" target="_blank">${itemTitle}</a>
-          <div class="rss-date">${formattedDate}</div>
-        </div>
-      `;
-    });
+      const list = document.createElement('div');
+      list.className = 'list';
 
-    document.getElementById("rss").innerHTML = html;
-  } catch (err) {
-    document.getElementById("rss").innerHTML =
-      "<p>Erreur lors du chargement du flux RSS.</p>";
+      items.forEach(it=>{
+        const title = it.querySelector('title')?.textContent?.trim() || 'Sans titre';
+        const link = (it.querySelector('link')?.textContent || it.querySelector('link')?.getAttribute('href') || '#').trim();
+        const pubDateRaw = it.querySelector('pubDate')?.textContent?.trim() || it.querySelector('date')?.textContent?.trim() || '';
+        const description = it.querySelector('description')?.textContent?.trim() || it.querySelector('summary')?.textContent?.trim() || '';
+
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        const h = document.createElement('h3');
+        h.className = 'item-title';
+        const a = document.createElement('a');
+        a.href = link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = title;
+        h.appendChild(a);
+        card.appendChild(h);
+
+        const meta = document.createElement('div');
+        meta.className = 'meta';
+        const dateSpan = document.createElement('span');
+        dateSpan.textContent = pubDateRaw ? formatDate(pubDateRaw) : '';
+        meta.appendChild(dateSpan);
+        card.appendChild(meta);
+
+        if(description){
+          const ex = document.createElement('div');
+          ex.className = 'excerpt';
+          // Affiche un extrait simple en enlevant balises HTML dangereuses
+          ex.innerHTML = sanitizeDescription(description);
+          card.appendChild(ex);
+        }
+
+        list.appendChild(card);
+      });
+
+      elRss.innerHTML = '';
+      elRss.appendChild(list);
+
+    }catch(err){
+      renderError(err.message || 'Erreur inconnue lors du chargement.');
+      console.error(err);
+    }
   }
-}
 
-// Mets ici ton flux RSS
-loadRSS("https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml");
+  function renderError(msg){
+    elRss.innerHTML = '<div class="error">'+escapeHtml(msg)+'</div>';
+  }
+
+  // Essaie un fetch direct ; si CORS échoue, retente via AllOrigins (proxy public)
+  async function fetchWithCorsFallback(url){
+    try{
+      const res = await fetch(url);
+      if(!res.ok) throw new Error('Erreur réseau: ' + res.status);
+      return await res.text();
+    }catch(firstErr){
+      // fallback : utiliser AllOrigins (proxy public) — utile quand CORS bloque
+      // Si tu ne veux pas utiliser de proxy public, fais ton propre proxy côté serveur.
+      const proxy = 'https://api.allorigins.win/raw?url=';
+      try{
+        const res2 = await fetch(proxy + encodeURIComponent(url));
+        if(!res2.ok) throw new Error('Le proxy a échoué: ' + res2.status);
+        return await res2.text();
+      }catch(proxyErr){
+        // renvoyer l'erreur initiale si le proxy échoue aussi
+        throw new Error('Impossible de charger le flux (CORS ou réseau). Détails: ' + (proxyErr.message || proxyErr));
+      }
+    }
+  }
+
+  // Sécurise affichage d'extraits : on autorise un peu de HTML basique et on enlève scripts
+  function sanitizeDescription(html){
+    // Création d'un DOMParser sur le contenu pour enlever <script> et on autorise seulement quelques balises simples
+    const allowed = ['b','i','em','strong','p','br','ul','ol','li','a'];
+    const doc = new DOMParser().parseFromString('<div>'+html+'</div>', 'text/html');
+    const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT, null, false);
+    const toRemove = [];
+    while(walker.nextNode()){
+      const node = walker.currentNode;
+      if(node.tagName && !allowed.includes(node.tagName.toLowerCase())){
+        // remplacer la balise par son contenu textuel
+        const text = node.textContent || '';
+        const replacement = doc.createTextNode(text);
+        node.parentNode.replaceChild(replacement, node);
+      } else {
+        // nettoyer attributs dangereux
+        for(const attr of Array.from(node.attributes || [])){
+          const name = attr.name.toLowerCase();
+          if(name === 'href'){
+            // autoriser href, mais forcer rel/noopener si externe
+            const val = attr.value;
+            if(/^javascript:/i.test(val)) node.removeAttribute('href');
+            else node.setAttribute('target','_blank');
+          } else {
+            node.removeAttribute(attr.name);
+          }
+        }
+      }
+    }
+    // retourner le HTML nettoyé
+    return doc.body.innerHTML;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(m){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+    });
+  }
+
+  function formatDate(d){
+    try{
+      const dt = new Date(d);
+      if(isNaN(dt)) return d;
+      return dt.toLocaleString(undefined, {year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    }catch(e){
+      return d;
+    }
+  }
+
+})();
 </script>
-
-
-</body>
-</html>
-
     <footer>
         <p>&copy; 2025 Portfolio Étudiant</p>
     </footer>
 </body>
 </html>
+
 
 
 
