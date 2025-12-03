@@ -196,25 +196,44 @@
   </div>
 
   <script>
-    const feedContainer = document.getElementById("rss-feed");
+async function loadRSS(url) {
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
 
-    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml")
-      .then(response => response.json())
-      .then(data => {
-        feedContainer.innerHTML = "";
-        data.items.slice(0, 6).forEach(item => { // limite à 6 actualités
-          const link = document.createElement("a");
-          link.href = item.link;
-          link.textContent = item.title;
-          link.target = "_blank";
-          feedContainer.appendChild(link);
-        });
-      })
-      .catch(error => {
-        feedContainer.innerHTML = "Impossible de charger le flux.";
-        console.error("Erreur RSS:", error);
-      });
-  </script>
+    const xml = new DOMParser().parseFromString(text, "text/xml");
+    const items = xml.querySelectorAll("item");
+
+    const title = xml.querySelector("channel > title")?.textContent || "Flux RSS";
+
+    let html = `<div class="rss-title">${title}</div>`;
+
+    items.forEach(item => {
+      const itemTitle = item.querySelector("title")?.textContent || "Sans titre";
+      const link = item.querySelector("link")?.textContent || "#";
+      const pubDate = item.querySelector("pubDate")?.textContent || "";
+
+      const formattedDate = pubDate ? new Date(pubDate).toLocaleString() : "";
+
+      html += `
+        <div class="rss-item">
+          <a href="${link}" target="_blank">${itemTitle}</a>
+          <div class="rss-date">${formattedDate}</div>
+        </div>
+      `;
+    });
+
+    document.getElementById("rss").innerHTML = html;
+  } catch (err) {
+    document.getElementById("rss").innerHTML =
+      "<p>Erreur lors du chargement du flux RSS.</p>";
+  }
+}
+
+// Mets ici ton flux RSS
+loadRSS("https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml");
+</script>
+
 
 </body>
 </html>
@@ -224,4 +243,5 @@
     </footer>
 </body>
 </html>
+
 
