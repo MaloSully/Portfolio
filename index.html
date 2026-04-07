@@ -85,261 +85,107 @@
         </div>
         <div id="project" class="page">
             <h2>Projet professionnel</h2>
-            <p>Mon objectif est d'obtenir mon BTS en administration réseaux et de continuer mes études après.</p>
+            <p>Mon objectif est d'obtenir mon BTS en administration réseaux et de continuer mes études par une license professionnelle.</p>
         </div>
         <div id="skills" class="page">
-		<h2>Compétences</h2>
-		<ul>
-            		<h3>Réseau</h3>
-                		<li>Création de VM dans un hyperviseur de style Proxmox (Debian, Windows)</li>
-                		<li>Création de conteneurs/volumes Docker</li>
-                		<li>Gestion d'AD/DS dans Windows Serveur</li>
-				<li>Mappage de lecteurs réseaux avec stratégie GPO</li>
-		    		<li>Installation d'un Proxmox Backup Server</li>
-		    		<li>Mise en place de liens LDAP (Nextcloud, GLPI)</li>
-		    		<li>Mise en place d'un helpdesk de type GLPI</li>
-		    		<li>Création de règles de pare-feu avec IPfire</li>
-				<li>Mise en place de proxy avec Squid</li>
-				<li>Déploiement d'images en multicast avec Fog</li>	
-				<li>Bases de la cybersécurité</li>
-				<li>Language de programmation de base (JavaScript, php, c++, c#, html)</li>	
-				<li>Principales commandes Linux</li>			
-				<li>Mettre en œuvre et administrer une base de données (MySQL, MariaDB)</li>
-           </ul>
+            <h2>Compétences</h2>
+            <ul>
+		<h3>Réseau</h3>
+                	<li>Création de VM dans un hyperviseur de style Proxmox (Debian, Windows)</li>
+                	<li>Création de conteneurs/volumes Docker</li>
+                	<li>Gestion d'AD/DS dans Windows Serveur</li>
+			<li>Mappage de lecteurs réseaux avec stratégie GPO</li>
+		    	<li>Installation d'un Proxmox Backup Server</li>
+		    	<li>Mise en place de liens LDAP (Nextcloud, GLPI)</li>
+		    	<li>Mise en place d'un helpdesk de type GLPI</li>
+		    	<li>Création de règles de pare-feu avec IPfire, Pfsense</li>
+			<li>Mise en place de proxy et reverse proxy avec Squid et Traefik</li>
+		<li>Déploiement d'images en multicast avec Fog</li>	
+		<li>Simulations jack the reaper et man in the middle en cybersécurité</li>
+		<li>Language de programmation de base (JavaScript, php, c++, c#, html)</li>	
+		<li>Principales commandes Linux et Cisco</li>			
+		<li>Mettre en œuvre et administrer une base de données (MySQL, MariaDB)</li>
+		<li>Analyse et collecte de métriques avec Prometheus et Grafana</li>
+		<li>Supervision avec Zabbix</li>
+		<li>IDS/IPS avec Snort et Monitoring avec Zeek</li>
+            </ul>
         </div>
         <div id="education" class="page">
             <h2>Formation</h2>
             <p>J'ai eu mon BAC STMG spécialité marketing à la fin de mes 3 ans de lycée, mention assez bien.</p>
+			<p>Je suis actuellement en deuxième année de BTS SIO et j'aimerai continuer par une licence pro. dans la télécommunication.</p>
         </div>
         <div id="experience" class="page">
             <h2>Expérience professionnelle</h2>
             <p>Stage d'observation d'une semaine à Cash Express Avranches (2022)</p>
-			<p>Stage de 5 semaines au siège social de Stelogy</p>
+			<p>Stage de 5 semaines au siège social de Stelogy (2025)</p>
+			<p>Stage de 5 semaines à la Communauté d'Agglomération Mt St Michel Normandie (2026)</p>
         </div>
         <div id="certifications" class="page">
             <h2>Certifications</h2>
             <ul>
 		<li>Projet Voltaire niveau 300</li>
                 <li>Certification MOOC de l'ANSSI</li>
-                <li><a href="https://gamma.app/docs/Certifications-numeriques--w8qnqswhlrj2eou">Certifications en cours</a></li>
+				<li>Cisco Netacad Défense du réseau</li>
+				<li>FUN MOOC Les bases de la télécommunication</li>
+                <li><a href="https://gamma.app/docs/Certifications-numeriques--w8qnqswhlrj2eou">Présentation approfondie de mes certifications</a></li>
 
             </ul>
         </div>
 		<div id="veille technologique" class="page">
- <h2>Veille technologique</h2>
-  <title>Mon Portfolio - Flux RSS</title>
-<body>
-
-  <div class="container">
-    <div class="main-content">
-	<h2>Sujet :</h2>
-      <p>Le réseau mobile</p>
-      <!-- Tu peux ajouter d'autres sections ici -->
-    </div>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Flux RSS — ARCEP (intégration)</title>
+            <h2>Veille technologique</h2>
+  <title>Flux RSS Developpez.com</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    a {
+      display: block;
+      margin: 8px 0;
+      text-decoration: none;
+      color: #007acc;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div class="rss-widget" id="rss-widget">
-    <div class="header">
-      <h1>Actualités — ARCEP</h1>
-      <div class="controls">
-        <button id="refresh">Rafraîchir</button>
-        <button id="clearCache" class="secondary">Vider le cache</button>
-      </div>
-    </div>
-
-    <div id="status" class="small">Chargement…</div>
-    <div id="list" class="list" aria-live="polite"></div>
-  </div>
+  <h1>Actualités Developpez.com</h1>
+  <div id="rss-feed">Chargement...</div>
 
   <script>
-  /*
-    Intégrer ce fichier dans votre application.
-    - Source JSON (rss2json) :
-      https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml
-    - Le script fait : fetch, mise en cache (localStorage), affichage responsive, gestion d'erreurs
-    - Modifiez `MAX_ITEMS` ou `CACHE_TTL_MS` si besoin.
-  */
+    const feedContainer = document.getElementById("rss-feed");
 
-  (function(){
-    const API_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://www.arcep.fr/actualites/suivre-actualite-regulation-arcep/grand-dossier-reseaux-mobiles/rss.xml';
-    const CACHE_KEY = 'arcep_rss_json_v1';
-    const CACHE_TTL_MS = 1000 * 60 * 5; // 5 minutes
-    const MAX_ITEMS = 8;
-
-    const statusEl = document.getElementById('status');
-    const listEl = document.getElementById('list');
-    const refreshBtn = document.getElementById('refresh');
-    const clearCacheBtn = document.getElementById('clearCache');
-
-    refreshBtn.addEventListener('click', () => load({force: true}));
-    clearCacheBtn.addEventListener('click', () => { localStorage.removeItem(CACHE_KEY); setStatus('Cache vidé.'); load({force:true}); });
-
-    function setStatus(text, isError){
-      statusEl.textContent = text || '';
-      statusEl.className = isError ? 'error' : 'small';
-    }
-
-    function formatDate(dateStr){
-      try{
-        const d = new Date(dateStr);
-        return new Intl.DateTimeFormat('fr-FR', {day:'2-digit',month:'short',year:'numeric'}).format(d);
-      }catch(e){return dateStr}
-    }
-
-    // Petit nettoyeur d'HTML — supprime <script> et attributs dangereux (on*, javascript:)
-    function sanitizeHtml(html){
-      if(!html) return '';
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      // remove script and style
-      doc.querySelectorAll('script,style').forEach(n=>n.remove());
-      // remove dangerous attributes
-      const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_ELEMENT, null);
-      let node;
-      while(node = walker.nextNode()){
-        // attributes to remove
-        [...node.attributes].forEach(attr=>{
-          const name = attr.name.toLowerCase();
-          const val = attr.value + '';
-          if(name.startsWith('on') || val.includes('javascript:')){
-            node.removeAttribute(attr.name);
-          }
+    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.developpez.com/index/rss")
+      .then(response => response.json())
+      .then(data => {
+        feedContainer.innerHTML = "";
+        data.items.forEach(item => {
+          const link = document.createElement("a");
+          link.href = item.link;
+          link.textContent = item.title;
+          link.target = "_blank";
+          feedContainer.appendChild(link);
         });
-      }
-      return doc.body.innerHTML;
-    }
-
-    async function fetchJson(){
-      const res = await fetch(API_URL, {cache: 'no-store'});
-      if(!res.ok) throw new Error('Erreur réseau: ' + res.status);
-      return res.json();
-    }
-
-    async function load({force=false} = {}){
-      setStatus('Chargement…');
-      listEl.innerHTML = '';
-
-      try{
-        if(!force){
-          const cached = localStorage.getItem(CACHE_KEY);
-          if(cached){
-            const parsed = JSON.parse(cached);
-            const age = Date.now() - parsed.fetchedAt;
-            if(age < CACHE_TTL_MS){
-              render(parsed.data);
-              setStatus('Données servies depuis le cache.');
-              return;
-            }
-          }
-        }
-
-        const data = await fetchJson();
-        // store minimal camera
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ fetchedAt: Date.now(), data }));
-        render(data);
-        setStatus('Données à jour.');
-      }catch(err){
-        console.error(err);
-        // try to show stale cache when offline
-        const cached = localStorage.getItem(CACHE_KEY);
-        if(cached){
-          const parsed = JSON.parse(cached);
-          render(parsed.data);
-          setStatus('Erreur réseau — affichage du cache.', true);
-        } else {
-          setStatus('Impossible de récupérer le flux : ' + (err.message||err), true);
-          listEl.innerHTML = '<div class="empty">Aucun élément à afficher.</div>';
-        }
-      }
-    }
-
-    function getThumbnail(item){
-      // rss2json fournit souvent 'thumbnail' or 'enclosure' fields — fallback to first image in content
-      if(item.thumbnail) return item.thumbnail;
-      if(item.enclosure && item.enclosure.link) return item.enclosure.link;
-      const match = (item.content || item.description || '').match(/<img[^>]+src=['\"]([^'\"]+)['\"]/i);
-      return match ? match[1] : null;
-    }
-
-    function excerptFrom(html, max=180){
-      const div = document.createElement('div');
-      div.innerHTML = sanitizeHtml(html);
-      const text = div.textContent || div.innerText || '';
-      if(text.length <= max) return text.trim();
-      return text.trim().slice(0, max).replace(/\s+$/,'') + '…';
-    }
-
-    function render(json){
-      if(!json || !json.items || !json.items.length){
-        listEl.innerHTML = '<div class="empty">Le flux ne contient aucun article.</div>';
-        return;
-      }
-      listEl.innerHTML = '';
-      const items = json.items.slice(0, MAX_ITEMS);
-      items.forEach(item => {
-        const thumb = getThumbnail(item);
-        const card = document.createElement('article');
-        card.className = 'card';
-
-        if(thumb){
-          const img = document.createElement('img');
-          img.className = 'thumbnail';
-          img.src = thumb;
-          img.alt = item.title || 'image article';
-          card.appendChild(img);
-        }
-
-        const meta = document.createElement('div');
-        meta.className = 'meta';
-
-        const title = document.createElement('h3');
-        title.className = 'item-title';
-        const a = document.createElement('a');
-        a.href = item.link || '#';
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.textContent = item.title || '—';
-        title.appendChild(a);
-
-        const desc = document.createElement('p');
-        desc.className = 'item-desc';
-        desc.innerHTML = excerptFrom(item.content || item.description || '');
-
-        const foot = document.createElement('div');
-        foot.className = 'item-foot';
-        foot.innerHTML = `<span>${formatDate(item.pubDate||item.pubDateISO||'')}</span>`;
-
-        meta.appendChild(title);
-        meta.appendChild(desc);
-        meta.appendChild(foot);
-        card.appendChild(meta);
-
-        listEl.appendChild(card);
+      })
+      .catch(error => {
+        feedContainer.innerHTML = "Erreur lors du chargement du flux.";
+        console.error("Erreur RSS:", error);
       });
-    }
-
-    // initial load
-    load();
-  })();
   </script>
 </body>
 </html>
 
-</script>
+        </div>
+    </div>
+    
     <footer>
         <p>&copy; 2025 Portfolio Étudiant</p>
     </footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
