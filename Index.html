@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Malo SULLY — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #1c2330;
+      --border: #30363d;
+      --accent: #00e5a0;
+      --accent2: #00b4ff;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --danger: #f85149;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,160,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,160,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 3.5rem 2rem 2.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(0,229,160,.06) 0%, transparent 100%);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: .72rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 2rem;
+      padding: .25rem .9rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: .08em;
+    }
+
+    header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.1;
+    }
+
+    header h1 span { color: var(--accent); }
+
+    .subtitle {
+      color: var(--muted);
+      margin-top: .6rem;
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+    .header-links {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: .75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .header-links a {
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: .4rem;
+      padding: .4rem .9rem;
+      transition: all .2s;
+    }
+    .header-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: rgba(13,17,23,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: .9rem 1.2rem;
+      position: relative;
+      transition: color .2s;
+      letter-spacing: .01em;
+    }
+
+    nav button::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform .2s;
+    }
+
+    nav button:hover { color: var(--text); }
+    nav button.active { color: var(--accent); }
+    nav button.active::after { transform: scaleX(1); }
+
+    /* ── MAIN LAYOUT ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .page { display: none; animation: fadeUp .3s ease; }
+    .page.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem;
+      letter-spacing: .12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 600px) { .about-grid { grid-template-columns: 1fr; } }
+
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: 1.5rem;
+    }
+    .about-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem;
+      color: var(--accent);
+      margin-bottom: .75rem;
+      letter-spacing: .06em;
+    }
+    .about-card p { color: var(--muted); line-height: 1.7; font-size: .95rem; }
+
+    .about-intro {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: .75rem;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .cv-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: 1rem;
+      margin-top: 1.5rem;
+    }
+    .cv-wrapper iframe {
+      width: 100%;
+      height: 620px;
+      border: none;
+      border-radius: .5rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-category { margin-bottom: 2.5rem; }
+    .skills-category h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: .78rem;
+      color: var(--accent2);
+      letter-spacing: .1em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .tag {
+      font-size: .82rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: .35rem;
+      padding: .35rem .75rem;
+      transition: all .15s;
+    }
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,160,.07);
+    }
+    .tag.accent { border-color: rgba(0,229,160,.4); color: var(--accent); background: rgba(0,229,160,.08); }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 6px; bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 1.4rem;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+    }
+    .timeline-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: .5rem;
+    }
+    .timeline-item h3 { font-size: 1rem; font-weight: 600; }
+    .timeline-item .date {
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .timeline-item p { color: var(--muted); font-size: .92rem; line-height: 1.6; }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: 1.25rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .cert-icon {
+      width: 36px; height: 36px;
+      background: rgba(0,229,160,.12);
+      border-radius: .5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      margin-bottom: .75rem;
+    }
+    .cert-card h4 { font-size: .92rem; font-weight: 600; margin-bottom: .25rem; }
+    .cert-card p { font-size: .8rem; color: var(--muted); }
+
+    /* ── VEILLE ── */
+    .rss-list { display: flex; flex-direction: column; gap: .75rem; }
+    .rss-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: .9rem 1.1rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      transition: border-color .2s;
+    }
+    .rss-item::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+    .rss-item:hover { border-color: var(--accent); }
+    .rss-loading {
+      font-family: 'Space Mono', monospace;
+      font-size: .8rem;
+      color: var(--muted);
+      padding: 1rem 0;
+    }
+
+    /* ── PROJET ── */
+    .goal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      border-radius: .75rem;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .goal-card h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: .78rem;
+      color: var(--accent2);
+      letter-spacing: .08em;
+      margin-bottom: .6rem;
+    }
+    .goal-card p { color: var(--text); line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: .75rem;
+    }
+    footer span { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">BTS SIO — Réseau & Systèmes</div>
+  <h1>Malo <span>SULLY</span></h1>
+  <p class="subtitle">Étudiant en administration réseau · Avranches</p>
+  <div class="header-links">
+    <a href="mailto:">Contact</a>
+    <a href="Malo.pdf" target="_blank">Télécharger le CV</a>
+  </div>
+</header>
+
+<nav>
+  <button onclick="show('about')" class="active" id="tab-about">À propos</button>
+  <button onclick="show('project')" id="tab-project">Projet</button>
+  <button onclick="show('skills')" id="tab-skills">Compétences</button>
+  <button onclick="show('education')" id="tab-education">Formation</button>
+  <button onclick="show('experience')" id="tab-experience">Expériences</button>
+  <button onclick="show('certifications')" id="tab-certifications">Certifications</button>
+  <button onclick="show('veille')" id="tab-veille">Veille techno</button>
+</nav>
+
+<main>
+
+  <!-- ── À PROPOS ── -->
+  <div id="about" class="page active">
+    <p class="section-title">à propos de moi</p>
+    <p class="about-intro">
+      Je m'appelle <strong>Malo</strong>, j'ai 19 ans et je suis passionné par les réseaux et l'administration système.
+      Actuellement en 2ᵉ année de BTS SIO au lycée NDLP d'Avranches, je cherche à approfondir mes connaissances
+      en télécommunications et à évoluer dans le domaine de l'infrastructure et de la cybersécurité.
+    </p>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>// localisation</h3>
+        <p>Avranches, Normandie<br />Lycée NDLP</p>
+      </div>
+      <div class="about-card">
+        <h3>// formation</h3>
+        <p>BTS SIO — option SISR<br />2ᵉ année en cours</p>
+      </div>
+      <div class="about-card">
+        <h3>// intérêts</h3>
+        <p>Réseaux · Virtualisation<br />Cybersécurité · Linux</p>
+      </div>
+      <div class="about-card">
+        <h3>// objectif</h3>
+        <p>Licence pro. en<br />Télécommunications</p>
+      </div>
+    </div>
+    <div class="cv-wrapper">
+      <iframe src="Malo.pdf"></iframe>
+    </div>
+  </div>
+
+  <!-- ── PROJET ── -->
+  <div id="project" class="page">
+    <p class="section-title">projet professionnel</p>
+    <div class="goal-card">
+      <h3>// objectif à court terme</h3>
+      <p>Valider mon BTS SIO option SISR avec de bons résultats et consolider mes compétences techniques en administration réseau et système.</p>
+    </div>
+    <div class="goal-card">
+      <h3>// objectif à long terme</h3>
+      <p>Poursuivre mes études avec une <strong>licence professionnelle en télécommunications</strong>, afin d'approfondir mes connaissances en infrastructures réseau et d'accéder à des postes d'administrateur réseau ou ingénieur systèmes.</p>
+    </div>
+    <div class="goal-card" style="border-left-color: var(--accent);">
+      <h3>// domaines visés</h3>
+      <p>Administration réseau · Infrastructure IT · Cybersécurité · Télécommunications</p>
+    </div>
+  </div>
+
+  <!-- ── COMPÉTENCES ── -->
+  <div id="skills" class="page">
+    <p class="section-title">compétences techniques</p>
+
+    <div class="skills-category">
+      <h3>// virtualisation & infrastructure</h3>
+      <div class="tags">
+        <span class="tag accent">Proxmox</span>
+        <span class="tag">Docker</span>
+        <span class="tag">Conteneurs & volumes</span>
+        <span class="tag">Proxmox Backup Server</span>
+        <span class="tag">Windows Server (AD/DS)</span>
+        <span class="tag">Stratégies GPO</span>
+        <span class="tag">Déploiement multicast (Fog)</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>// réseau & sécurité</h3>
+      <div class="tags">
+        <span class="tag accent">IPfire</span>
+        <span class="tag accent">pfSense</span>
+        <span class="tag">Pare-feu & règles</span>
+        <span class="tag">Proxy Squid</span>
+        <span class="tag">Reverse proxy Traefik</span>
+        <span class="tag">Commandes Linux</span>
+        <span class="tag">Commandes Cisco</span>
+        <span class="tag">LDAP (Nextcloud, GLPI)</span>
+        <span class="tag">GLPI Helpdesk</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>// cybersécurité</h3>
+      <div class="tags">
+        <span class="tag accent">Snort (IDS/IPS)</span>
+        <span class="tag accent">Zeek (Monitoring)</span>
+        <span class="tag">Man in the Middle</span>
+        <span class="tag">Jack the Reaper</span>
+        <span class="tag">Analyse de trafic</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>// supervision & monitoring</h3>
+      <div class="tags">
+        <span class="tag accent">Zabbix</span>
+        <span class="tag accent">Prometheus</span>
+        <span class="tag accent">Grafana</span>
+        <span class="tag">Collecte de métriques</span>
+      </div>
+    </div>
+
+    <div class="skills-category">
+      <h3>// développement & bases de données</h3>
+      <div class="tags">
+        <span class="tag">HTML</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">PHP</span>
+        <span class="tag">C++</span>
+        <span class="tag">C#</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">MariaDB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FORMATION ── -->
+  <div id="education" class="page">
+    <p class="section-title">parcours de formation</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <h3>BTS SIO — option SISR</h3>
+          <span class="date">2023 — 2025</span>
+        </div>
+        <p>Lycée NDLP, Avranches. Administration réseaux, virtualisation, cybersécurité, développement web. Actuellement en 2ᵉ année.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <h3>BAC STMG — spécialité Marketing</h3>
+          <span class="date">2020 — 2023</span>
+        </div>
+        <p>Obtenu avec la mention <strong>Assez Bien</strong>. Spécialité marketing, introduction à la gestion et à la communication.</p>
+      </div>
+      <div class="timeline-item" style="border-left-color: rgba(0,229,160,.4); opacity: .75;">
+        <div class="timeline-meta">
+          <h3>Licence Pro. Télécommunications</h3>
+          <span class="date">2025 — 2026 (objectif)</span>
+        </div>
+        <p>Poursuite d'études envisagée en licence professionnelle dans le domaine des télécommunications et réseaux.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPÉRIENCE ── -->
+  <div id="experience" class="page">
+    <p class="section-title">expériences professionnelles</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <h3>Communauté d'Agglomération — Mont-Saint-Michel Normandie</h3>
+          <span class="date">2026 · 5 semaines</span>
+        </div>
+        <p>Stage en administration système et réseau au sein d'une collectivité territoriale.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <h3>Stelogy — Siège Social</h3>
+          <span class="date">2025 · 5 semaines</span>
+        </div>
+        <p>Stage dans une entreprise spécialisée en infrastructure IT. Mise en pratique des compétences en administration réseau et systèmes.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <h3>Cash Express Avranches</h3>
+          <span class="date">2022 · 1 semaine</span>
+        </div>
+        <p>Stage d'observation en milieu professionnel. Découverte du monde de l'entreprise.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CERTIFICATIONS ── -->
+  <div id="certifications" class="page">
+    <p class="section-title">certifications & diplômes</p>
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-icon">✦</div>
+        <h4>Projet Voltaire</h4>
+        <p>Niveau 300 — Maîtrise de l'orthographe française</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⬡</div>
+        <h4>MOOC ANSSI</h4>
+        <p>Certification en cybersécurité délivrée par l'ANSSI</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">◈</div>
+        <h4>Cisco Netacad</h4>
+        <p>Défense du réseau — Sécurité infrastructure</p>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">◉</div>
+        <h4>FUN MOOC</h4>
+        <p>Les bases de la télécommunication</p>
+      </div>
+    </div>
+    <div style="margin-top: 1.5rem; text-align: center;">
+      <a href="https://gamma.app/docs/Certifications-numeriques--w8qnqswhlrj2eou"
+         target="_blank"
+         style="display: inline-flex; align-items: center; gap: .5rem; font-family: 'Space Mono', monospace; font-size: .8rem; color: var(--accent); border: 1px solid var(--accent); border-radius: .5rem; padding: .55rem 1.2rem; text-decoration: none; transition: background .2s;"
+         onmouseover="this.style.background='rgba(0,229,160,.1)'" onmouseout="this.style.background='transparent'">
+        ↗ Voir la présentation complète des certifications
+      </a>
+    </div>
+  </div>
+
+  <!-- ── VEILLE TECHNOLOGIQUE ── -->
+  <div id="veille" class="page">
+    <p class="section-title">veille technologique</p>
+    <p style="color: var(--muted); font-size: .9rem; margin-bottom: 1.5rem;">
+      Flux d'actualités récupéré depuis <strong style="color: var(--text);">Developpez.com</strong>
+    </p>
+    <div id="rss-feed" class="rss-list">
+      <p class="rss-loading">// chargement du flux RSS…</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 — <span>Malo SULLY</span> · Portfolio BTS SIO</p>
+</footer>
+
+<script>
+  function show(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  /* ── RSS FEED ── */
+  fetch("https://api.rss2json.com/v1/api.json?rss_url=https://www.developpez.com/index/rss")
+    .then(r => r.json())
+    .then(data => {
+      const container = document.getElementById('rss-feed');
+      container.innerHTML = '';
+      if (!data.items || !data.items.length) {
+        container.innerHTML = '<p class="rss-loading">// aucun article trouvé</p>';
+        return;
+      }
+      data.items.slice(0, 15).forEach(item => {
+        const a = document.createElement('a');
+        a.href = item.link;
+        a.target = '_blank';
+        a.className = 'rss-item';
+        a.textContent = item.title;
+        container.appendChild(a);
+      });
+    })
+    .catch(() => {
+      document.getElementById('rss-feed').innerHTML =
+        '<p class="rss-loading">// erreur lors du chargement du flux RSS</p>';
+    });
+</script>
+</body>
+</html>
